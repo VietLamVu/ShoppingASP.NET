@@ -6,7 +6,8 @@
 }
 <h3>List Category</h3>
 <a asp-action="Create" asp-controller="Category">Add Category</a>
-<table class="table">
+
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th scope="col">Id</th>
@@ -14,13 +15,14 @@
             <th scope="col">Category Description</th>
             <th scope="col">Category Slug</th>
             <th scope="col">Category Status</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row">@item.Id</th>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@Html.Raw(@item.Description)</td>
                
@@ -45,4 +47,4 @@
 
     </tbody>
 </table>
-<partial name = "_Paging" model="paper" />
+<partial name="_Paging" model="@paper" />

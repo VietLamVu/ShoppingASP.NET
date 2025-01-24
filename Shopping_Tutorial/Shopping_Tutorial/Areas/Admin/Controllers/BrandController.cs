@@ -89,46 +89,46 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             BrandModel brand = await _dataContext.Brands.FindAsync(Id);
             return View(brand);
         }
-        [Route("Edit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BrandModel brand)
-        {
+		[Route("Edit")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(BrandModel brand)
+		{
+			// Kiểm tra tính hợp lệ của model
+			if (ModelState.IsValid)
+			{
+				// Kiểm tra trùng lặp Slug
+				brand.Slug = brand.Name.Replace(" ", "-");
+				var existingBrand = await _dataContext.Brands
+													   .FirstOrDefaultAsync(p => p.Slug == brand.Slug && p.Id != brand.Id);
+				if (existingBrand != null)
+				{
+					ModelState.AddModelError("", "Thương hiệu đã có trong database.");
+					return View(brand);
+				}
 
-            //lay du lieu tu form vao csdl
-            if (ModelState.IsValid)
-            {
-                brand.Slug = brand.Name.Replace(" ", "-");
-                var slug = await _dataContext.Brands.FirstOrDefaultAsync(p => p.Slug == brand.Slug);
-                if (slug != null)
-                {
-                    ModelState.AddModelError("", "Thương hiệu đã có trong database");
-                    return View(brand);
-                }
-
-                _dataContext.Update(brand);
-                await _dataContext.SaveChangesAsync();
-                TempData["success"] = "Cập nhật thương hiệu thành công";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData["error"] = "Model đang có một vài thứ bị lỗi";
-                List<string> errors = new List<string>();
-                foreach (var value in ModelState.Values)
-                {
-                    foreach (var error in value.Errors)
-                    {
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-                string errorMessage = string.Join("\n", errors);
-                return BadRequest(errorMessage);
-
-            }
-            return View(brand);
-        }
-        [Route("Delete")]
+				// Cập nhật thương hiệu vào cơ sở dữ liệu
+				_dataContext.Update(brand);
+				await _dataContext.SaveChangesAsync();
+				TempData["success"] = "Cập nhật thương hiệu thành công.";
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				TempData["error"] = "Model không hợp lệ.";
+				List<string> errors = new List<string>();
+				foreach (var value in ModelState.Values)
+				{
+					foreach (var error in value.Errors)
+					{
+						errors.Add(error.ErrorMessage);
+					}
+				}
+				string errorMessage = string.Join("\n", errors);
+				return BadRequest(errorMessage);
+			}
+		}
+		[Route("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
             BrandModel brand = await _dataContext.Brands.FindAsync(Id);

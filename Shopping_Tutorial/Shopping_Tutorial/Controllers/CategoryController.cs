@@ -14,7 +14,7 @@ namespace Shopping_Tutorial.Controllers
 		}
 		public async Task<IActionResult> Index(string Slug = "")			
 		{
-			CategoryModel category = _dataContext.Categories.Where(c =>  c.Slug == Slug).FirstOrDefault();
+			CategoryModel category = _dataContext.Categories.Where(c =>  c.Slug == Slug && c.Status == 1).FirstOrDefault();
 			if (category == null) return RedirectToAction("Index");
 			var productsByCategory = _dataContext.Products.Where(p => p.CategoryId == category.Id);
 			return View(await productsByCategory.OrderByDescending(p => p.Id).ToListAsync());

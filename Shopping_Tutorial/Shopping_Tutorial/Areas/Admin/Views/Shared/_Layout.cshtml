@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+	TempData["Title"] = "Admin CMS";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -8,9 +11,13 @@
 	<title>@ViewData["Title"] - Admin Areas</title>
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
-	<link href="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.min.css
-" rel="stylesheet">
+	<!--Sweet alert-->
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.min.css" rel="stylesheet">
+	<!--loc du lieu datatable js-->
+	<link href="//cdn.datatables.net/2.2.0/css/dataTables.dataTables.min.css" rel="stylesheet">
+	<!--in du lieu datatable js-->
+	<link href="https://cdn.datatables.net/buttons/3.2.0/css/buttons.dataTables.css" rel="stylesheet">
+
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
 	<link href="~/css/animate.css" rel="stylesheet">
@@ -74,23 +81,21 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.min.css
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-action="Index" asp-controller="Home" class="active">Home</a></li>
+								<li><a asp-action="Index" asp-controller="Home" class="active">Home</a></li>								
 								<li><a asp-action="Index" asp-controller="Product">Manage Product</a></li>
 								<li><a asp-action="Index" asp-controller="Category">Manage Category</a></li>
 								<li><a asp-action="Index" asp-controller="Brand">Manage Brand</a></li>
+								<li><a asp-action="Index" asp-controller="Order">Manage Order</a></li>
+								<li><a asp-action="Index" asp-controller="Shipping">Manage Shipping</a></li>
 								<li><a asp-action="Index" asp-controller="User">Manage User</a></li>
-
 								<li><a asp-action="Index" asp-controller="Role">Manage Role</a></li>
-
+								<li><a asp-action="Index" asp-controller="Slider">Manage Slider</a></li>
+								<li><a asp-action="Index" asp-controller="Contact">Manage Contact</a></li>
 							
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div><!--/header-bottom-->
@@ -123,16 +128,42 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.min.css
 	<script src="~/js/price-range.js"></script>
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/backend/js/site.js"></script>
-	<script src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.all.min.js
-"></script>
+	<!--loc du lieu datatable js-->
+	<script src="//cdn.datatables.net/2.2.0/js/dataTables.min.js"></script>
+
+	<!--in du lieu datatable js-->
+	<script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.dataTables.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
+	
+	<!--Sweet alert-->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.5/dist/sweetalert2.all.min.js"></script>
 		<script>
 			$(function () {
 				var message = '@TempData["success"]';
-				if (message != '')
-					Swal.fire(message);
+				if (message != '') { 
+					Swal.fire({
+						title: message,
+						icon: "success",
+						draggable: true
+					});
+				}
 			});
 		</script>
+	<!--loc du lieu datatable js, in data bang datatable js-->
+	<script>
+		let table = new DataTable('#myTable', {
+			layout: {
+				topStart: {
+					buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+				}
+			}
+			});
+	</script>
 	<!--hien thi thong bao loi-->
 	@await RenderSectionAsync("Scripts", required:false)
 </body>

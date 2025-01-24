@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Shopping_Tutorial.Migrations;
 using Shopping_Tutorial.Models;
 using Shopping_Tutorial.Repository;
 
@@ -85,46 +86,40 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             CategoryModel category = await _dataContext.Categories.FindAsync(Id);
             return View(category);
         }
-        [Route("Edit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CategoryModel category)
-        {
+		[Route("Edit")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(CategoryModel updatedCategory)
+		{
+			var category = await _dataContext.Categories.FindAsync(updatedCategory.Id);
+			if (category == null)
+			{
+				return NotFound();
+			}
 
-            //lay du lieu tu form vao csdl
-            if (ModelState.IsValid)
-            {
-                category.Slug = category.Name.Replace(" ", "-");
-                var slug = await _dataContext.Categories.FirstOrDefaultAsync(p => p.Slug == category.Slug);
-                if (slug != null)
-                {
-                    ModelState.AddModelError("", "Danh mục đã có trong database");
-                    return View(category);
-                }
+			if (!string.IsNullOrWhiteSpace(updatedCategory.Name) && updatedCategory.Name != category.Name)
+			{
+				category.Name = updatedCategory.Name;
+				category.Slug = updatedCategory.Name.Replace(" ", "-");
+			}
 
-                _dataContext.Update(category);
-                await _dataContext.SaveChangesAsync();
-                TempData["success"] = "Cập nhật danh mục thành công";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData["error"] = "Model đang có một vài thứ bị lỗi";
-                List<string> errors = new List<string>();
-                foreach (var value in ModelState.Values)
-                {
-                    foreach (var error in value.Errors)
-                    {
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-                string errorMessage = string.Join("\n", errors);
-                return BadRequest(errorMessage);
+			if (!string.IsNullOrWhiteSpace(updatedCategory.Description) && updatedCategory.Description != category.Description)
+			{
+				category.Description = updatedCategory.Description;
+			}
 
-            }
-            return View(category);
-        }
-        [Route("Delete")]
+			if (updatedCategory.Status != category.Status)
+			{
+				category.Status = updatedCategory.Status;
+			}
+
+			// Lưu thay đổi vào cơ sở dữ liệu
+			await _dataContext.SaveChangesAsync();
+			TempData["success"] = "Cập nhật danh mục thành công";
+			return RedirectToAction("Index");
+		}
+
+		[Route("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
             CategoryModel category = await _dataContext.Categories.FindAsync(Id);

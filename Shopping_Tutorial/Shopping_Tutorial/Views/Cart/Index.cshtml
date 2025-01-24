@@ -30,37 +30,83 @@
 						@foreach(var item in Model.CartItems){
 						<tr>
 							<td class="cart_product">
-								@* <a href=""><img src="~/images/@item.Image" alt=""></a> *@
+								 <a href=""><img src="~/media/products/@item.Image" alt="" width="70px"></a> 
 							</td>
 							<td class="cart_description">
 								<h4><a href="">@item.ProductName</a></h4>
 							
 							</td>
 							<td class="cart_price">
-								<p>$@item.Price</p>
+									<p>@item.Price.ToString("#,##0 VND")</p>
 							</td>
-							<td class="cart_quantity">
-								
-									<a class="btn btn-default btn-sm" asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId"> + </a>
+							<td class="">
+
+									<a class="btn btn-success btn-sm" asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId"> + </a>
 									<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity" autocomplete="off" size="2">
-										<a class="btn btn-success btn-sm" asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId"> - </a>
+										<a class="btn btn-warning btn-sm" asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId"> - </a>
 										<a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId"> Remove </a>
 							
 							</td>
+							<!--Hien thi total-->
 							<td class="cart_total">
-								<p class="cart_total_price">$@Model.CartItems.Where(x => x.ProductId == @item.ProductId).Sum(x => x.Quantity * x.Price).ToString()</p>
+									<p class="cart_total_price">@Model.CartItems.Where(x => x.ProductId == @item.ProductId).Sum(x => x.Quantity * x.Price).ToString("#,##0 VND")</p>
 							</td>
+							<!--Clear tat ca san pham-->
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+									<a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Clear"> Clear </a>
 							</td>
 						</tr>
 						}
-						<tr rowspan="5">
-							<td colspan="6">Grand Total:<p class="cart_total_price"> @Model.GrandTotal.ToString()</p></td>
-							<td><a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Clear"> Clear </a></td>
+						<tr>
+							<td rowspan="5">
+								Grand Total:<p class="cart_total_price"> @Model.GrandTotal.ToString("#,##0 VND")</p>
+								Shipping Cost:<p class="cart_total_price"> @Model.ShippingCost.ToString("#,##0 VND")</p>
+
+								<p><a asp-action="DeleteShipping" asp-controller="Cart">Delete</a></p>
+							</td>
+							
+
+							<td>
+								<div class="form-group">
+									<label>Chọn</label>
+									<select class="css_select" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
+										<option value="0">Tỉnh Thành</option>
+									</select>
+								</div>
+
+
+								<div class="form-group">
+									<label>Chọn</label>
+									<select class="css_select" id="quan" name="quan" title="Chọn Quận Huyện">
+										<option value="0">Quận Huyện</option>
+									</select>
+								</div>
+
+
+								<div class="form-group">
+									<label>Chọn</label>
+									<select class="css_select" id="phuong" name="phuong" title="Chọn Phường Xã">
+										<option value="0">Phường Xã</option>
+									</select>
+								</div>
+							</td>
+							<button type="button" class="btn btn-default btn-add-shipping">Tính phí ship</button>
+
+							
+
+
 							@if (User.Identity?.IsAuthenticated ?? false)
 							{
-								<td><a class="btn btn-primary btn-sm" asp-controller="Checkout" asp-action="Checkout"> Checkout </a></td>
+								<td>
+									@if(Model.ShippingCost <= 0){
+										<a disabled="disabled" class="btn btn-primary btn-sm" asp-controller="Checkout" asp-action="Checkout"> Đặt hàng </a><br/>
+										<span class="text text-danger">Yêu cầu tính phí vận chuyển trước khi đặt hàng</span>
+									}
+									else
+									{
+										<a class="btn btn-primary btn-sm" asp-controller="Checkout" asp-action="Checkout"> Đặt hàng </a>
+									}
+								</td>
 							}
 							
 						</tr>
@@ -78,3 +124,71 @@
 		</div>
 	</div>
 </section> <!--/#cart_items-->
+
+@section Scripts{
+	<script>
+		
+			$(".btn-add-shipping").click(function () {
+				var tinh = $("#tinh").find('option:selected').text();
+				var quan = $("#quan").find('option:selected').text();
+				var phuong = $("#phuong").find('option:selected').text();
+				
+
+				if (tinh == '' || quan == '' || phuong == '') {
+					Swal.fire("Không được bỏ trống");
+				} else {
+					$.ajax({
+						type: "POST",
+						url: "@Url.Action("GetShipping","Cart")",
+						data: { tinh: tinh, quan: quan, phuong: phuong },
+						success: function (result) {
+							if (result) {
+								location.reload();
+							} 
+						}
+					});
+				}
+			});
+		
+	</script>
+	<!--Api tinh thanh pho-->
+	<script>
+		$(document).ready(function () {
+			//Lấy tỉnh thành
+			$.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+				if (data_tinh.error == 0) {
+					$.each(data_tinh.data, function (key_tinh, val_tinh) {
+						$("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+					});
+					$("#tinh").change(function (e) {
+						var idtinh = $(this).val();
+						//Lấy quận huyện
+						$.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+							if (data_quan.error == 0) {
+								$("#quan").html('<option value="0">Quận Huyện</option>');
+								$("#phuong").html('<option value="0">Phường Xã</option>');
+								$.each(data_quan.data, function (key_quan, val_quan) {
+									$("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+								});
+								//Lấy phường xã
+								$("#quan").change(function (e) {
+									var idquan = $(this).val();
+									$.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+										if (data_phuong.error == 0) {
+											$("#phuong").html('<option value="0">Phường Xã</option>');
+											$.each(data_phuong.data, function (key_phuong, val_phuong) {
+												$("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+											});
+										}
+									});
+								});
+
+							}
+						});
+					});
+
+				}
+			});
+		});
+	</script>
+}

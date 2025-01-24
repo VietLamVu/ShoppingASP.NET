@@ -87,7 +87,7 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
 			return View(product);
         }
         [Route("Edit")]
-        public async Task<IActionResult> Edit(int Id) 
+        public async Task<IActionResult> Edit(long Id) 
 		{
 			ProductModel product = await _dataContext.Products.FindAsync(Id);
             ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", product.CategoryId);
@@ -103,6 +103,7 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             ViewBag.Categories = new SelectList(_dataContext.Categories, "Id", "Name", product.CategoryId);
             ViewBag.Brands = new SelectList(_dataContext.Brands, "Id", "Name", product.BrandId);
             var existed_product = _dataContext.Products.Find(product.Id); //tim sp theo id product
+
             //lay du lieu tu form vao csdl
             if (ModelState.IsValid)
             {
@@ -164,7 +165,7 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             return View(product);
         }
         [Route("Delete")]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(long Id)
         {
             ProductModel product = await _dataContext.Products.FindAsync(Id);
             if(product == null)
@@ -189,7 +190,38 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             _dataContext.Products.Remove(product);
             await _dataContext.SaveChangesAsync();
             TempData["success"] = "sản phẩm đã xóa";
-            return RedirectToAction("Index", "Admin/Products");  
+            return RedirectToAction("Index", "Product", new { area = "Admin" });
+        }
+
+        //Add quantity to product
+        [Route("AddQuantity")]
+        public async Task<IActionResult> AddQuantity(int Id)
+        {
+            var productbyquantity = await _dataContext.ProductQuantities.Where(pq=>pq.ProductId == Id).ToListAsync();
+            ViewBag.ProductByQuantity = productbyquantity;
+            ViewBag.Id = Id;
+            return View();
+        }
+        [Route("StoreProductQuantity")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult StoreProductQuantity(ProductQuantityModel productQuantityModel)
+        {
+            var product = _dataContext.Products.Find(productQuantityModel.ProductId);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            product.Quantity += productQuantityModel.Quantity;
+            productQuantityModel.Quantity = productQuantityModel.Quantity;
+            productQuantityModel.ProductId = productQuantityModel.ProductId;
+            productQuantityModel.DateCreated = DateTime.Now;
+
+            _dataContext.Add(productQuantityModel);
+            _dataContext.SaveChangesAsync();
+            TempData["success"] = "Thêm số lượng sản phẩm thành công";
+            return RedirectToAction("AddQuantity", "Product", new {Id = productQuantityModel.ProductId });
+
         }
     }
 }

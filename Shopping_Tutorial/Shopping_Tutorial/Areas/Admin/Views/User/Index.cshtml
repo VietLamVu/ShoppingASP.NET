@@ -4,7 +4,8 @@
 }
 <h3>List User</h3>
 <a class="btn btn-primary" asp-action="Create" asp-controller="User">Add User</a>
-<table class="table">
+<!--id="myTable" : loc du lieu datatable js-->
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th scope="col">Id</th>
@@ -13,6 +14,7 @@
             <th scope="col">PasswordHash</th>
             <th scope="col">PhoneNumber</th>
             <th scope="col">Role</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>

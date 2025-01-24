@@ -41,6 +41,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\2204_banner-web2.png",
+      "PackagePath": "staticwebassets\\images\\2204_banner-web2.png"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\Banner-Home-MSI-Zone-022022.jpeg",
+      "PackagePath": "staticwebassets\\images\\Banner-Home-MSI-Zone-022022.jpeg"
+    },
+    {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\HYTE.jpg",
       "PackagePath": "staticwebassets\\images\\HYTE.jpg"
     },
@@ -53,8 +61,28 @@
       "PackagePath": "staticwebassets\\images\\Zues.jpg"
     },
     {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\banner-04.jpg",
+      "PackagePath": "staticwebassets\\images\\banner-04.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\banner-pc-tg.jpg",
+      "PackagePath": "staticwebassets\\images\\banner-pc-tg.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\dell-inspiron-15-3520.jpg",
+      "PackagePath": "staticwebassets\\images\\dell-inspiron-15-3520.jpg"
+    },
+    {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\gallery1.jpg",
       "PackagePath": "staticwebassets\\images\\gallery1.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\grey-1-750x500.jpg",
+      "PackagePath": "staticwebassets\\images\\grey-1-750x500.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\logo.jpg",
+      "PackagePath": "staticwebassets\\images\\logo.jpg"
     },
     {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\images\\pc-rosa.jpg",
@@ -333,6 +361,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\logo\\daea2a94-11da-46a2-93f6-6158f8ae4eaf_logo.jpg",
+      "PackagePath": "staticwebassets\\media\\logo\\daea2a94-11da-46a2-93f6-6158f8ae4eaf_logo.jpg"
+    },
+    {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\04cedd7c-d58f-409a-b6ea-7e9b9259c0d3_macbook-air-m1-2020-gray.jpg",
       "PackagePath": "staticwebassets\\media\\products\\04cedd7c-d58f-409a-b6ea-7e9b9259c0d3_macbook-air-m1-2020-gray.jpg"
     },
@@ -341,8 +373,8 @@
       "PackagePath": "staticwebassets\\media\\products\\34b0b970-70c8-4d19-a871-dfa4e00ecf4d_Zues.jpg"
     },
     {
-      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\45af28ce-2ac4-4aab-99a9-12bc3b951ae7_samsung-galaxy-chromebook.jpg",
-      "PackagePath": "staticwebassets\\media\\products\\45af28ce-2ac4-4aab-99a9-12bc3b951ae7_samsung-galaxy-chromebook.jpg"
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\58ec9c9d-43d0-435a-a659-ced921167815_grey-1-750x500.jpg",
+      "PackagePath": "staticwebassets\\media\\products\\58ec9c9d-43d0-435a-a659-ced921167815_grey-1-750x500.jpg"
     },
     {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\8e0b19a1-f2b6-46a6-849e-85cb947e914e_Vitra.jpg",
@@ -355,6 +387,22 @@
     {
       "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\b49a7ca8-4f3d-47d8-a19f-0548a5cc099b_pc-rosa.jpg",
       "PackagePath": "staticwebassets\\media\\products\\b49a7ca8-4f3d-47d8-a19f-0548a5cc099b_pc-rosa.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\products\\c17f8d66-6283-4175-86fd-b23e8870c52f_dell-inspiron-15-3520.jpg",
+      "PackagePath": "staticwebassets\\media\\products\\c17f8d66-6283-4175-86fd-b23e8870c52f_dell-inspiron-15-3520.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\sliders\\343518e8-ada7-4b61-ac44-5adb66435acd_banner-pc-tg.jpg",
+      "PackagePath": "staticwebassets\\media\\sliders\\343518e8-ada7-4b61-ac44-5adb66435acd_banner-pc-tg.jpg"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\sliders\\cb620951-82eb-420a-8f01-729ce1cd0ebe_2204_banner-web2.png",
+      "PackagePath": "staticwebassets\\media\\sliders\\cb620951-82eb-420a-8f01-729ce1cd0ebe_2204_banner-web2.png"
+    },
+    {
+      "Id": "D:\\ASP.NET\\Shopping_Tutorial\\Shopping_Tutorial\\wwwroot\\media\\sliders\\e593493b-027d-4f65-a32d-d2fab64009fa_Banner-Home-MSI-Zone-022022.jpeg",
+      "PackagePath": "staticwebassets\\media\\sliders\\e593493b-027d-4f65-a32d-d2fab64009fa_Banner-Home-MSI-Zone-022022.jpeg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Shopping_Tutorial.Microsoft.AspNetCore.StaticWebAssets.props",
